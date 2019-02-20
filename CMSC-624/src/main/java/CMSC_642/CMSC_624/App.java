@@ -1,4 +1,4 @@
-package CMSC_642.CMSC_624;
+package main.java.CMSC_642.CMSC_624;
 
 /**
  * Hello world!
@@ -6,8 +6,17 @@ package CMSC_642.CMSC_624;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    public App(){
+
     }
+
+    public int form(int x1, int x2, int x3){
+        int s = x1;
+        for(int i = 0; i < x3; i++){
+            s = s*x2;
+        }
+        return s;
+    }
+
+
 }

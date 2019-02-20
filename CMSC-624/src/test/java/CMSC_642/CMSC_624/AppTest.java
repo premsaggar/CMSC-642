@@ -1,4 +1,4 @@
-package CMSC_642.CMSC_624;
+package test.java.CMSC_642.CMSC_624;
 
 import org.junit.jupiter.api.*;
 

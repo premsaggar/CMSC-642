@@ -1,5 +1,5 @@
-package CMSC_642.CMSC_624;
-
+package test.java.CMSC_642.CMSC_624;
+import main.java.CMSC_642.CMSC_624.*;
 import org.junit.jupiter.api.*;
 
 /**
@@ -12,10 +12,8 @@ public class LastTermTest
 	public void getLastTerm()
     {
     	App a = new App();
-    	/*
-    	int got = a.getLastTerm(3,4,3);
+    	int got = a.form(3,4,3);
     	Assertions.assertEquals(got, 192);
-    	*/
     }
     
 }
