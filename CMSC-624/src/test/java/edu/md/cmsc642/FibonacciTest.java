@@ -1,9 +1,11 @@
-package CMSC_642.CMSC_624;
+package edu.md.cmsc642;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import edu.md.cmsc642.Fibonacci;
 
 class FibonacciTest
 {

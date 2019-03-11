@@ -1,4 +1,4 @@
-package CMSC_642.CMSC_624;
+package edu.md.cmsc642;
 
 /**
  * Hello world!

@@ -1,6 +1,8 @@
-package CMSC_642.CMSC_624;
+package edu.md.cmsc642;
 
 import org.junit.jupiter.api.*;
+
+import edu.md.cmsc642.App;
 
 /**
  * Unit test for simple App.
