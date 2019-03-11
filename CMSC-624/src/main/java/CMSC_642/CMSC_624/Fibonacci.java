@@ -44,7 +44,7 @@ public class Fibonacci
 		}
 		else
 		{
-			return getFib(n-1) + getFibRecursive(n-2);
+			return getFibRecursive(n-1) + getFibRecursive(n-2);
 		}
 
 	}
