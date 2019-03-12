@@ -21,6 +21,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * convenience class for client auth object, Please note you must set your
+ * region! AWS does not have your assets everywhere. S3 is region specific. So
+ * hope your region is safe!
+ * 
+ * @author prems
+ *
+ */
 class AthenaClientFactory
 {
 	/**
@@ -29,31 +37,54 @@ class AthenaClientFactory
 	 * as the credentials provider - Configure the client to increase the execution
 	 * timeout.
 	 */
-	private final AmazonAthenaClientBuilder builder = AmazonAthenaClientBuilder.standard()
-			.withRegion(Regions.US_EAST_1);/*
-											 * .withCredentials(InstanceProfileCredentialsProvider.getInstance())
-											 * .withClientConfiguration(new
-											 * ClientConfiguration().withClientExecutionTimeout(ExampleConstants.
-											 * CLIENT_EXECUTION_TIMEOUT));
-											 */
+	private final AmazonAthenaClientBuilder builder = 
+			AmazonAthenaClientBuilder.standard().withRegion(Regions.US_EAST_1).withClientConfiguration
+			(
+					new ClientConfiguration().withClientExecutionTimeout(ExampleConstants.CLIENT_EXECUTION_TIMEOUT)
+			);
 
+	/**
+	 * convenience builder method, allows multiple calls to the factory for multiple
+	 * builders
+	 * 
+	 * @return
+	 */
 	public AmazonAthena createClient()
 	{
 		return builder.build();
 	}
 }
 
+/**
+ * convenience class for AWS inputs
+ * 
+ * @author prems
+ *
+ */
 class ExampleConstants
 {
 
-	public static final int CLIENT_EXECUTION_TIMEOUT = 100000;
+	/**
+	 * total time to wait (nice idea, why?)
+	 */
+	public static final int CLIENT_EXECUTION_TIMEOUT = 1000;
 	/**
 	 * must be a different folder and not a sub folder!
 	 */
 	public static final String ATHENA_OUTPUT_BUCKET = "s3://642premdemo/CrimeOutput/";
-	// This is querying a table created by the getting started tutorial in Athena
+	/**
+	 *  Your Athena query
+	 */
 	public static final String ATHENA_SAMPLE_QUERY = "SELECT * from crime;";
+	
+	/**
+	 * time to poll for results being done
+	 */
 	public static final long SLEEP_AMOUNT_IN_MS = 100;
+	
+	/**
+	 * your Athena database
+	 */
 	public static final String ATHENA_DEFAULT_DATABASE = "bigjoin1";
 
 }
@@ -65,30 +96,38 @@ class ExampleConstants
  */
 public class AthenaTest
 {
-	public static void main(String[] args) throws InterruptedException
+	/**
+	 * in case you want to run it as a program
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static void main(String[] args) throws Exception
 	{
-		// Build an AmazonAthena client
-		AthenaClientFactory factory = new AthenaClientFactory();
-		AmazonAthena client = factory.createClient();
-
-		String queryExecutionId = submitAthenaQuery(client);
-
-		waitForQueryToComplete(client, queryExecutionId);
-
-		processResultRows(client, queryExecutionId);
+		//create an Athena test object
+		AthenaTest test = new AthenaTest();
+		//call test method
+		test.testAthena();
 	}
 
+	/**
+	 * in case you want to run it as a test
+	 * @throws Exception
+	 */
 	@Test
 	public void testAthena() throws Exception
 	{
 		// Build an Amazon Athena client
 		AthenaClientFactory factory = new AthenaClientFactory();
+		//get our client
 		AmazonAthena client = factory.createClient();
-
+		
+		//submit your query and get the execution id to query on
 		String queryExecutionId = submitAthenaQuery(client);
 
+		//wait for the execution to complete by polling the execution id
 		waitForQueryToComplete(client, queryExecutionId);
 
+		//do some fun output with your 
 		processResultRows(client, queryExecutionId);
 
 	}
@@ -115,7 +154,10 @@ public class AthenaTest
 				.withQueryString(ExampleConstants.ATHENA_SAMPLE_QUERY).withQueryExecutionContext(queryExecutionContext)
 				.withResultConfiguration(resultConfiguration);
 
+		//launch the query
 		StartQueryExecutionResult startQueryExecutionResult = client.startQueryExecution(startQueryExecutionRequest);
+		
+		//return the query execution id
 		return startQueryExecutionResult.getQueryExecutionId();
 	}
 
@@ -127,11 +169,15 @@ public class AthenaTest
 
 	private static void waitForQueryToComplete(AmazonAthena client, String queryExecutionId) throws InterruptedException
 	{
+		//request for query execution
 		GetQueryExecutionRequest getQueryExecutionRequest = new GetQueryExecutionRequest()
 				.withQueryExecutionId(queryExecutionId);
 
+		//result for query execution
 		GetQueryExecutionResult getQueryExecutionResult = null;
 		boolean isQueryStillRunning = true;
+		
+		//while the query is still running, wait, else handle conditions
 		while (isQueryStillRunning)
 		{
 			getQueryExecutionResult = client.getQueryExecution(getQueryExecutionRequest);
