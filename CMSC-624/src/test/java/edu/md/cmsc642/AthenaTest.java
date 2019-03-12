@@ -77,21 +77,22 @@ public class AthenaTest
 
 		processResultRows(client, queryExecutionId);
 	}
-	
-	/*
-	 * @Test public void testAthena() throws Exception { // Build an AmazonAthena
-	 * client AthenaClientFactory factory = new AthenaClientFactory(); AmazonAthena
-	 * client = factory.createClient();
-	 * 
-	 * String queryExecutionId = submitAthenaQuery(client);
-	 * 
-	 * waitForQueryToComplete(client, queryExecutionId);
-	 * 
-	 * processResultRows(client, queryExecutionId);
-	 * 
-	 * 
-	 * }
-	 */
+
+	@Test
+	public void testAthena() throws Exception
+	{
+		// Build an Amazon Athena client
+		AthenaClientFactory factory = new AthenaClientFactory();
+		AmazonAthena client = factory.createClient();
+
+		String queryExecutionId = submitAthenaQuery(client);
+
+		waitForQueryToComplete(client, queryExecutionId);
+
+		processResultRows(client, queryExecutionId);
+
+	}
+
 	/**
 	 * Submits a sample query to Athena and returns the execution ID of the query.
 	 */
@@ -179,7 +180,7 @@ public class AthenaTest
 			List<Row> results = getQueryResultsResult.getResultSet().getRows();
 			for (Row row : results)
 			{
-				System.out.println("row="+row.getData());
+				System.out.println("row=" + row.getData());
 				// Process the row. The first row of the first page holds the column names.
 				processRow(row, columnInfoList);
 			}
