@@ -166,7 +166,6 @@ public class AthenaTest
 	 * by polling Athena over an interval of time. If a query fails or is cancelled,
 	 * then it will throw an exception.
 	 */
-
 	private static void waitForQueryToComplete(AmazonAthena client, String queryExecutionId) throws InterruptedException
 	{
 		//request for query execution
@@ -240,10 +239,18 @@ public class AthenaTest
 		}
 	}
 
+	/**
+	 * method to process each column of each row
+	 * @param row
+	 * @param columnInfoList
+	 */
 	private static void processRow(Row row, List<ColumnInfo> columnInfoList)
 	{
+		//for all columns in the row
 		for (int i = 0; i < columnInfoList.size(); ++i)
 		{
+			//I suppose a switch works here
+			//start with the 0th index and go until n
 			switch (columnInfoList.get(i).getType())
 			{
 			case "varchar":
