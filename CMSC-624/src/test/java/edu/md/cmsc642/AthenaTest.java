@@ -19,6 +19,8 @@ import com.amazonaws.services.athena.model.StartQueryExecutionResult;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 class AthenaClientFactory
 {
 	/**
@@ -45,10 +47,13 @@ class ExampleConstants
 {
 
 	public static final int CLIENT_EXECUTION_TIMEOUT = 100000;
-	public static final String ATHENA_OUTPUT_BUCKET = "s3://642premdemo/Crime/";
+	/**
+	 * must be a different folder and not a sub folder!
+	 */
+	public static final String ATHENA_OUTPUT_BUCKET = "s3://642premdemo/CrimeOutput/";
 	// This is querying a table created by the getting started tutorial in Athena
 	public static final String ATHENA_SAMPLE_QUERY = "SELECT * from crime;";
-	public static final long SLEEP_AMOUNT_IN_MS = 1000;
+	public static final long SLEEP_AMOUNT_IN_MS = 100;
 	public static final String ATHENA_DEFAULT_DATABASE = "bigjoin1";
 
 }
@@ -72,7 +77,21 @@ public class AthenaTest
 
 		processResultRows(client, queryExecutionId);
 	}
-
+	
+	/*
+	 * @Test public void testAthena() throws Exception { // Build an AmazonAthena
+	 * client AthenaClientFactory factory = new AthenaClientFactory(); AmazonAthena
+	 * client = factory.createClient();
+	 * 
+	 * String queryExecutionId = submitAthenaQuery(client);
+	 * 
+	 * waitForQueryToComplete(client, queryExecutionId);
+	 * 
+	 * processResultRows(client, queryExecutionId);
+	 * 
+	 * 
+	 * }
+	 */
 	/**
 	 * Submits a sample query to Athena and returns the execution ID of the query.
 	 */
